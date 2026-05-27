@@ -1,0 +1,12 @@
+uv run python examples/convert_jax_model_to_pytorch.py \
+    --checkpoint_dir /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero \
+    --output_path /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero_pytorch \
+    --config-name pi05_libero \
+    --precision float32
+
+JAX_PLATFORMS=cpu uv run python examples/convert_pytorch_model_to_jax.py \
+    --input_path  /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero_pytorch \
+    --output_path /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero_converted_jax \
+    --config_name pi05_libero
+
+uv run python examples/compare_models.py > comparision.out

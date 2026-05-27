@@ -42,6 +42,8 @@ services:
     volumes:
       - $PWD:/app
       - ${OPENPI_DATA_HOME:-~/.cache/openpi}:/openpi_assets
+      # - /mnt/data2/yi/logan/openpi:/mnt/data2/yi/logan/openpi
+      - /mnt/data2/yi/logan:/mnt/data2/yi/logan
     environment:
       - SERVER_ARGS
       - OPENPI_DATA_HOME=/openpi_assets
@@ -53,5 +55,5 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              count: 2
               capabilities: [gpu]

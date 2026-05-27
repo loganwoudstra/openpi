@@ -3,6 +3,7 @@ import dataclasses
 import logging
 import math
 import pathlib
+import datetime
 
 import imageio
 from libero.libero import benchmark
@@ -46,6 +47,24 @@ class Args:
 
 
 def eval_libero(args: Args) -> None:
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H:%M:%S")
+    run_dir = pathlib.Path(f"data/libero/{timestamp}_{args.task_suite_name}")
+    run_dir.mkdir(parents=True, exist_ok=True)
+    
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler(run_dir / "output.log"),
+        ]
+    )
+    
+    # replace video_out_path with run_dir
+    args.video_out_path = str(run_dir) + "/videos"
+    
     # Set random seed
     np.random.seed(args.seed)
 
