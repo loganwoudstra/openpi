@@ -126,6 +126,13 @@ class FakeDataset(Dataset):
     def __len__(self) -> int:
         return self._num_samples
 
+class _PatchedGetQueryIndices:
+    def __init__(self, original_fn, ep_idx_map):
+        self.original_fn = original_fn
+        self.ep_idx_map = ep_idx_map
+
+    def __call__(self, idx, ep_idx):
+        return self.original_fn(idx, self.ep_idx_map[ep_idx])
 
 def create_torch_dataset(
     data_config: _config.DataConfig, action_horizon: int, model_config: _model.BaseModelConfig
@@ -136,15 +143,19 @@ def create_torch_dataset(
         raise ValueError("Repo ID is not set. Cannot create dataset.")
     if repo_id == "fake":
         return FakeDataset(model_config, num_samples=1024)
-
+    
     dataset_meta = lerobot_dataset.LeRobotDatasetMetadata(repo_id)
+    episodes = sorted(data_config.episodes) if data_config.episodes is not None else None
     dataset = lerobot_dataset.LeRobotDataset(
         data_config.repo_id,
         delta_timestamps={
             key: [t / dataset_meta.fps for t in range(action_horizon)] for key in data_config.action_sequence_keys
         },
+        episodes=episodes,
     )
-
+    if episodes is not None:
+        ep_idx_map = {global_idx: local_idx for local_idx, global_idx in enumerate(episodes)}
+        dataset._get_query_indices = _PatchedGetQueryIndices(dataset._get_query_indices, ep_idx_map)
     if data_config.prompt_from_task:
         dataset = TransformedDataset(dataset, [_transforms.PromptFromLeRobotTask(dataset_meta.tasks)])
 

@@ -1,8 +1,10 @@
 uv run python examples/convert_jax_model_to_pytorch.py \
     --checkpoint_dir /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero \
-    --output_path /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero_pytorch \
+    --output_path /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pytorch_models/pi05_libero \
     --config-name pi05_libero \
     --precision float32
+
+rsync -avP /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pytorch_models/pi05_libero_dsf lwoudstr@vulcan.alliancecan.ca:~/projects/aip-jjin5/lwoudstr/models
 
 JAX_PLATFORMS=cpu uv run python examples/convert_pytorch_model_to_jax.py \
     --input_path  /mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_libero_pytorch \

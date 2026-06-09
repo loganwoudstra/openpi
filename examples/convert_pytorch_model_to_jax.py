@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-# Copyright 2025 The RLinf Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 """
 Convert a PyTorch / safetensors checkpoint back to OpenPi JAX/Orbax format.
 
@@ -53,9 +39,11 @@ import openpi.models.pi0_config
 import openpi.training.config as _config
 import orbax.checkpoint as ocp
 import safetensors.torch
+from safetensors import safe_open
 import torch
 import tyro
 from flax.nnx import traversals
+import json
 
 
 # ---------------------------------------------------------------------------
@@ -80,7 +68,20 @@ def load_state_dict(input_path: str, from_pt: bool) -> dict[str, torch.Tensor]:
     else:
         st_path = os.path.join(input_path, "model.safetensors")
         print(f"Loading safetensors from {st_path}")
-        sd = safetensors.torch.load_file(st_path)
+        # sd = safetensors.torch.load_file(st_path)
+        index_path = os.path.join(input_path, "model.safetensors.index.json")
+        if os.path.exists(index_path):
+            with open(index_path, "r") as f:
+                index = json.load(f)
+
+            sd = {}
+            for weight_file in set(index["weight_map"].values()):
+                path = os.path.join(input_path, weight_file)
+                with safe_open(path, framework="pt", device="cpu") as f:
+                    for k in f.keys():
+                        sd[k] = f.get_tensor(k)
+        else:
+            sd = safetensors.torch.load_file(os.path.join(input_path, "model.safetensors"))
 
     # Safetensors deduplicates tied weights — restore the embedding from lm_head
     embed_key = "paligemma_with_expert.paligemma.model.language_model.embed_tokens.weight"

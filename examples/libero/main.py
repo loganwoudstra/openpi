@@ -4,6 +4,7 @@ import logging
 import math
 import pathlib
 import datetime
+import os
 
 import imageio
 from libero.libero import benchmark
@@ -61,6 +62,8 @@ def eval_libero(args: Args) -> None:
             logging.FileHandler(run_dir / "output.log"),
         ]
     )
+    
+    logging.info("SERVER_ARGS=%s", os.environ.get("SERVER_ARGS"))
     
     # replace video_out_path with run_dir
     args.video_out_path = str(run_dir) + "/videos"

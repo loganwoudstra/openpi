@@ -3,10 +3,10 @@ from openpi.policies import policy_config
 from openpi.shared import download
 import os
 
-# os.environ["OPENPI_DATA_HOME"] = '~/logan/models/openpi'
+os.environ["OPENPI_DATA_HOME"] = '/mnt/data1/logan/openpi'
 
-config = _config.get_config("pi05_droid")
-checkpoint_dir = download.maybe_download("gs://openpi-assets/checkpoints/pi05_droid")
+config = _config.get_config("pi05_libero")
+checkpoint_dir = download.maybe_download("gs://openpi-assets/checkpoints/pi05_libero")
 
 # Create a trained policy.
 policy = policy_config.create_trained_policy(config, checkpoint_dir)

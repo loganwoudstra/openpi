@@ -1,0 +1,268 @@
+{
+  "summary": {
+    "keys_in_A": 51,
+    "keys_in_B": 51,
+    "total_params_A": 3353433872,
+    "total_params_B": 3353433872,
+    "missing_in_B": 0,
+    "extra_in_B": 0,
+    "shape_mismatches": 0,
+    "dtype_mismatches": 0,
+    "value_mismatches": 31,
+    "fully_matched_keys": 20
+  },
+  "missing_in_b": [],
+  "extra_in_b": [],
+  "shape_mismatches": [],
+  "dtype_mismatches": [],
+  "value_mismatches": [
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.LayerNorm_1.bias.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.2345733642578125,
+      "mean_abs_diff": 0.0013827126240357757,
+      "max_rel_diff": 0.003889381652697921,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.LayerNorm_1.scale.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.05633354187011719,
+      "mean_abs_diff": 0.004022404085844755,
+      "max_rel_diff": 0.0038896200712770224,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MlpBlock_0.Dense_1.bias.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.04790687561035156,
+      "mean_abs_diff": 0.0003780471161007881,
+      "max_rel_diff": 0.003876264439895749,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.embedder.input_embedding.value",
+      "shape": "(257152, 2048)",
+      "max_abs_diff": 0.03100299835205078,
+      "mean_abs_diff": 0.00017757172463461757,
+      "max_rel_diff": 0.0038910505827516317,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.query.bias.value",
+      "shape": "(27, 16, 72)",
+      "max_abs_diff": 0.03055572509765625,
+      "mean_abs_diff": 0.0004169885069131851,
+      "max_rel_diff": 0.0038588743191212416,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MlpBlock_0.Dense_0.bias.value",
+      "shape": "(27, 4304)",
+      "max_abs_diff": 0.02942943572998047,
+      "mean_abs_diff": 0.0014173336094245315,
+      "max_rel_diff": 0.003889749525114894,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.LayerNorm_0.bias.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.02834606170654297,
+      "mean_abs_diff": 0.0001893433800432831,
+      "max_rel_diff": 0.0038867590483278036,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.out.bias.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.012854576110839844,
+      "mean_abs_diff": 0.0003069169179070741,
+      "max_rel_diff": 0.003890215652063489,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.key.bias.value",
+      "shape": "(27, 16, 72)",
+      "max_abs_diff": 0.007808685302734375,
+      "mean_abs_diff": 0.0007390417158603668,
+      "max_rel_diff": 0.003864436177536845,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.LayerNorm_0.scale.value",
+      "shape": "(27, 1152)",
+      "max_abs_diff": 0.007750988006591797,
+      "mean_abs_diff": 0.0013717621332034469,
+      "max_rel_diff": 0.0038731894455850124,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.value.bias.value",
+      "shape": "(27, 16, 72)",
+      "max_abs_diff": 0.00769495964050293,
+      "mean_abs_diff": 8.009230077732354e-05,
+      "max_rel_diff": 0.0038905686233192682,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoder_norm.scale.value",
+      "shape": "(1152,)",
+      "max_abs_diff": 0.007673740386962891,
+      "mean_abs_diff": 0.00200653076171875,
+      "max_rel_diff": 0.003706312971189618,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoder_norm.bias.value",
+      "shape": "(1152,)",
+      "max_abs_diff": 0.0048296451568603516,
+      "mean_abs_diff": 0.00042496880632825196,
+      "max_rel_diff": 0.0038547348231077194,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.mlp.linear.value",
+      "shape": "(18, 16384, 2048)",
+      "max_abs_diff": 0.004398822784423828,
+      "mean_abs_diff": 3.911588282790035e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.attn_vec_einsum.w.value",
+      "shape": "(18, 8, 256, 2048)",
+      "max_abs_diff": 0.003849625587463379,
+      "mean_abs_diff": 3.793171708821319e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.mlp.gating_einsum.value",
+      "shape": "(18, 2, 2048, 16384)",
+      "max_abs_diff": 0.0036401748657226562,
+      "mean_abs_diff": 3.911663588951342e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.head.kernel.value",
+      "shape": "(1152, 2048)",
+      "max_abs_diff": 0.0035897493362426758,
+      "mean_abs_diff": 2.8751699574058875e-05,
+      "max_rel_diff": 0.003890811698511243,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MlpBlock_0.Dense_1.kernel.value",
+      "shape": "(27, 4304, 1152)",
+      "max_abs_diff": 0.003523111343383789,
+      "mean_abs_diff": 3.674921754281968e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.head.bias.value",
+      "shape": "(2048,)",
+      "max_abs_diff": 0.003502488136291504,
+      "mean_abs_diff": 3.1274390494218096e-05,
+      "max_rel_diff": 0.0037981970235705376,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.out.kernel.value",
+      "shape": "(27, 16, 72, 1152)",
+      "max_abs_diff": 0.0019470453262329102,
+      "mean_abs_diff": 3.5378208849579096e-05,
+      "max_rel_diff": 0.00389104918576777,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.key.kernel.value",
+      "shape": "(27, 1152, 16, 72)",
+      "max_abs_diff": 0.0019445419311523438,
+      "mean_abs_diff": 3.610447674873285e-05,
+      "max_rel_diff": 0.00389104918576777,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.q_einsum.w.value",
+      "shape": "(18, 8, 2048, 256)",
+      "max_abs_diff": 0.0019276142120361328,
+      "mean_abs_diff": 3.715095954248682e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MlpBlock_0.Dense_0.kernel.value",
+      "shape": "(27, 1152, 4304)",
+      "max_abs_diff": 0.0017750859260559082,
+      "mean_abs_diff": 3.70611778635066e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.query.kernel.value",
+      "shape": "(27, 1152, 16, 72)",
+      "max_abs_diff": 0.0016922950744628906,
+      "mean_abs_diff": 3.593939254642464e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.kv_einsum.w.value",
+      "shape": "(18, 2, 1, 2048, 256)",
+      "max_abs_diff": 0.0009756684303283691,
+      "mean_abs_diff": 3.977139567723498e-05,
+      "max_rel_diff": 0.00389104918576777,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.img.Transformer.encoderblock.MultiHeadDotProductAttention_0.value.kernel.value",
+      "shape": "(27, 1152, 16, 72)",
+      "max_abs_diff": 0.0009755790233612061,
+      "mean_abs_diff": 3.6199726309860125e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.mlp_1.gating_einsum.value",
+      "shape": "(18, 2, 1024, 4096)",
+      "max_abs_diff": 0.0009729564189910889,
+      "mean_abs_diff": 4.292855010135099e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.q_einsum_1.w.value",
+      "shape": "(18, 8, 1024, 256)",
+      "max_abs_diff": 0.0009519755840301514,
+      "mean_abs_diff": 4.173281558905728e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.mlp_1.linear.value",
+      "shape": "(18, 4096, 1024)",
+      "max_abs_diff": 0.0009117424488067627,
+      "mean_abs_diff": 2.9502993129426613e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.kv_einsum_1.w.value",
+      "shape": "(18, 2, 1, 1024, 256)",
+      "max_abs_diff": 0.0008796155452728271,
+      "mean_abs_diff": 4.4642281864071265e-05,
+      "max_rel_diff": 0.0038910501170903444,
+      "dtype_match": true
+    },
+    {
+      "key": "params.PaliGemma.llm.layers.attn.attn_vec_einsum_1.w.value",
+      "shape": "(18, 8, 256, 1024)",
+      "max_abs_diff": 0.0004882216453552246,
+      "mean_abs_diff": 3.521089456626214e-05,
+      "max_rel_diff": 0.00389104918576777,
+      "dtype_match": true
+    }
+  ]
+}

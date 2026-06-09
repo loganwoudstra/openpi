@@ -5,3 +5,14 @@ uv run scripts/serve_policy.py \
 uv run scripts/serve_policy.py \
     policy:checkpoint --policy.config=pi05_droid \
     --policy.dir=/mnt/data2/yi/logan/openpi/openpi-assets/checkpoints/pi05_droid/
+
+
+
+# SFT on custom data
+uv run python examples/franka/convert_custom_data_to_lerobot.py \
+    --data-dir /mnt/data2/yi/logan/datasets/custom_teleop/pick-and-place-carrot
+uv run scripts/compute_norm_stats.py --config-name pi05_franka
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py \
+    pi05_franka \
+    --exp-name=custom_franka \
+    --overwrite
