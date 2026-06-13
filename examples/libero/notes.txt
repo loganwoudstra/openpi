@@ -1,3 +1,32 @@
+# local
 export SERVER_ARGS="--env LIBERO policy:checkpoint --policy.config pi05_libero --policy.dir /mnt/data2/yi/logan/RLinf_models/RLinf-Pi05-LIBERO-SFT-jax"
 export CLIENT_ARGS="--args.task-suite-name libero_10"
 docker compose -f examples/libero/compose.yml up
+
+# cc
+salloc --gres=gpu:1 --mem=50gb --cpus-per-task=8 --time=1:00:00 --account=aip-jjin5 
+
+module load apptainer/1.4.5
+
+export SERVER_ARGS="--port 8069 --env LIBERO policy:checkpoint --policy.config pi05_libero --policy.dir /home/lwoudstr/projects/aip-jjin5/lwoudstr/models/openpi_pi05_libero_jax"
+export CLIENT_ARGS="--args.port 8069 --args.task-suite-name libero_10"
+
+apptainer exec \
+    --nv   --bind $PWD:/app \
+    --bind ${OPENPI_DATA_HOME:-~/.cache/openpi}:/openpi_assets \
+    --env OPENPI_DATA_HOME=/openpi_assets \
+    --env IS_DOCKER=true \
+    --env SERVER_ARGS="$SERVER_ARGS" \
+    --env PYTHONPATH=/app/src \
+    ~/scratch/openpi_server.sif \
+    /bin/bash -c "source /.venv/bin/activate && python scripts/serve_policy.py $SERVER_ARGS"
+
+apptainer exec \
+  --nv \
+  --no-home \
+  --pwd /app \
+  --bind $PWD:/app \
+  --bind $PWD/data:/data \
+  --env CLIENT_ARGS="$CLIENT_ARGS" \
+  ~/scratch/libero.sif \
+  /bin/bash -c "source /.venv/bin/activate && python examples/libero/main.py $CLIENT_ARGS"

@@ -901,7 +901,7 @@ _CONFIGS = [
     ),
     TrainConfig(
         name="pi05_libero_10_few_shot",
-        checkpoint_base_dir="/mnt/data1/logan/checkpoints",
+        checkpoint_base_dir="/home/lwoudstr/scratch/openpi/checkpoints",
         # model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -929,7 +929,7 @@ _CONFIGS = [
                 27, 47, # task 9
             ],
             assets=AssetsConfig(
-                assets_dir="/mnt/data1/logan/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
+                assets_dir="/home/lwoudstr/projects/aip-jjin5/lwoudstr/models/openpi_pi05_libero_jax/assets/physical-intelligence",
                 asset_id="libero",
             ),
         ),
@@ -947,8 +947,8 @@ _CONFIGS = [
             eps=1e-8,
             weight_decay=1e-10,
         ),
-        weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi05_base/params"),
-        pytorch_weight_path="/path/to/your/pytorch_weight_path",
+        weight_loader=weight_loaders.CheckpointWeightLoader("/home/lwoudstr/projects/aip-jjin5/lwoudstr/models/pi05_base/params"),
+        # pytorch_weight_path="/path/to/your/pytorch_weight_path",
         num_train_steps=30_000,
         freeze_filter=pi0_config.Pi0Config(
             pi05=True,
@@ -963,15 +963,16 @@ _CONFIGS = [
     
     TrainConfig(
         name="pi05_franka",
+        checkpoint_base_dir="/home/lwoudstr/scratch/openpi/checkpoints",
         model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
         data=LeRobotFrankaDataConfig(
-            repo_id="/mnt/data2/yi/logan/datasets/lerobot/pick-and-place-carrot",
+            repo_id="/home/lwoudstr/scratch/datasets/lerobot/pick-and-place-carrot",
             base_config=DataConfig(prompt_from_task=True),
             extra_delta_transform=False,
         ),
-        weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi05_base/params"),
-        pytorch_weight_path="/path/to/your/pytorch_weight_path",
-        fsdp_devices=2, 
+        weight_loader=weight_loaders.CheckpointWeightLoader("/home/lwoudstr/projects/aip-jjin5/lwoudstr/models/pi05_base/params"),
+        # pytorch_weight_path="/path/to/your/pytorch_weight_path",
+        fsdp_devices=4, 
         num_train_steps=20000,
         batch_size=32,
         lr_schedule=_optimizer.CosineDecaySchedule(
@@ -982,10 +983,6 @@ _CONFIGS = [
         ),
         optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
         ema_decay=0.999,  
-        save_interval=1000,
-        keep_period=5000,  
-        log_action_samples=True,
-        log_interval=50,
     ),
     
     TrainConfig(

@@ -6,7 +6,7 @@ import glob
 from pathlib import Path
 
 import os
-os.environ["HF_LEROBOT_HOME"] = "/mnt/data2/yi/logan/datasets/lerobot"
+os.environ["HF_LEROBOT_HOME"] = "/home/lwoudstr/scratch/datasets/lerobot"
 
 from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, HF_LEROBOT_HOME
 

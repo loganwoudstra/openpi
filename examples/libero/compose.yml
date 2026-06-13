@@ -44,9 +44,9 @@ services:
       - $PWD:/app
       - ${OPENPI_DATA_HOME:-~/.cache/openpi}:/openpi_assets
       # - /mnt/data2/yi/logan/openpi:/mnt/data2/yi/logan/openpi
-      - /mnt/data2/yi/logan:/mnt/data2/yi/logan
-      - /mnt/data1/logan:/mnt/data1/logan
-      - /home/yi/logan/openpi/checkpoints:/home/yi/logan/openpi/checkpoints
+      # - /mnt/data2/yi/logan:/mnt/data2/yi/logan
+      # - /mnt/data1/logan:/mnt/data1/logan
+      # - /home/yi/logan/openpi/checkpoints:/home/yi/logan/openpi/checkpoints
     environment:
       - SERVER_ARGS
       - OPENPI_DATA_HOME=/openpi_assets
