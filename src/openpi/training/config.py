@@ -97,7 +97,8 @@ class DataConfig:
     # Path to the data filter file for DROID dataset
     filter_dict_path: str | None = None
     # episode_filter
-    episodes: list[int] | None = None
+    task_indices: list[int] | None = None
+    episodes_per_task: int | None = None
 
 
 class GroupFactory(Protocol):
@@ -289,8 +290,9 @@ class LeRobotLiberoDataConfig(DataConfigFactory):
     """
 
     extra_delta_transform: bool = False
-    # episode_filter
-    episodes: list[int] | None = None
+    # task index filter
+    task_indices: list[int] | None = None
+    episodes_per_task: int | None = None
 
     @override
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
@@ -356,7 +358,8 @@ class LeRobotLiberoDataConfig(DataConfigFactory):
             repack_transforms=repack_transform,
             data_transforms=data_transforms,
             model_transforms=model_transforms,
-            episodes=self.episodes,
+            task_indices=self.task_indices,
+            episodes_per_task=self.episodes_per_task
         )
         
 @dataclasses.dataclass(frozen=True)
@@ -916,18 +919,8 @@ _CONFIGS = [
                 prompt_from_task=True,
             ),
             extra_delta_transform=False,
-            episodes=[
-                0, 18, # task 0
-                1, 4, # task 1
-                2, 3, # ...
-                6, 38,
-                7, 9,
-                8, 13,
-                10, 20,
-                12, 17,
-                14, 15,
-                27, 47, # task 9
-            ],
+            task_indices=list(range(10)), # LIBERO-10 tasks are 0-9
+            episodes_per_task=4,
             assets=AssetsConfig(
                 assets_dir="/mnt/data1/logan/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
                 asset_id="libero",
@@ -969,18 +962,8 @@ _CONFIGS = [
                 prompt_from_task=True,
             ),
             extra_delta_transform=False,
-            episodes=[
-                0, 18, # task 0
-                1, 4, # task 1
-                2, 3, # ...
-                6, 38,
-                7, 9,
-                8, 13,
-                10, 20,
-                12, 17,
-                14, 15,
-                27, 47, # task 9
-            ],
+            task_indices=list(range(10)), # LIBERO-10 tasks are 0-9
+            episodes_per_task=4,
             assets=AssetsConfig(
                 assets_dir="/mnt/data1/logan/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
                 asset_id="libero",
@@ -998,7 +981,7 @@ _CONFIGS = [
         # pytorch_weight_path="/path/to/your/pytorch_weight_path",
         num_train_steps=30_000,
         ema_decay=None,
-        fsdp_devices=2, 
+        fsdp_devices=1, 
     ),
     
     
