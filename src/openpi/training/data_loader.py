@@ -4,6 +4,7 @@ import multiprocessing
 import os
 import typing
 from typing import Literal, Protocol, SupportsIndex, TypeVar
+from collections import defaultdict
 
 import jax
 import jax.numpy as jnp
@@ -145,7 +146,33 @@ def create_torch_dataset(
         return FakeDataset(model_config, num_samples=1024)
     
     dataset_meta = lerobot_dataset.LeRobotDatasetMetadata(repo_id)
-    episodes = sorted(data_config.episodes) if data_config.episodes is not None else None
+
+    episodes = None
+    task_counts = defaultdict(int)
+    episodes = []
+
+    for ep in dataset_meta.episodes.values():
+        tasks = ep.get("tasks", [])
+        task_idx = dataset_meta.task_to_task_index.get(tasks[0], -1)
+
+        # If task filtering is enabled
+        if data_config.task_indices is not None:
+            if task_idx not in data_config.task_indices:
+                continue
+
+        # If we are limiting per-task
+        if data_config.episodes_per_task is not None:
+            if task_counts[task_idx] >= data_config.episodes_per_task:
+                continue
+            task_counts[task_idx] += 1
+
+        episodes.append(ep["episode_index"])
+
+    if not episodes:
+        raise ValueError(
+            f"No episodes found for task_indices={task_indices} in {repo_id}"
+        )
+    
     dataset = lerobot_dataset.LeRobotDataset(
         data_config.repo_id,
         delta_timestamps={
@@ -153,9 +180,12 @@ def create_torch_dataset(
         },
         episodes=episodes,
     )
+    
+    # fix indexing
     if episodes is not None:
         ep_idx_map = {global_idx: local_idx for local_idx, global_idx in enumerate(episodes)}
         dataset._get_query_indices = _PatchedGetQueryIndices(dataset._get_query_indices, ep_idx_map)
+    
     if data_config.prompt_from_task:
         dataset = TransformedDataset(dataset, [_transforms.PromptFromLeRobotTask(dataset_meta.tasks)])
 

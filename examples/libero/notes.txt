@@ -1,5 +1,7 @@
 # local
-export SERVER_ARGS="--env LIBERO policy:checkpoint --policy.config pi05_libero --policy.dir /mnt/data2/yi/logan/RLinf_models/RLinf-Pi05-LIBERO-SFT-jax"
+export SERVER_ARGS="--env LIBERO policy:checkpoint \
+    --policy.config pi05_libero \
+    --policy.dir /mnt/data1/logan/checkpoints/pi05_libero_10_few_shot_full_model/libero_10_few_shot_full_model/29999"
 export CLIENT_ARGS="--args.task-suite-name libero_10"
 docker compose -f examples/libero/compose.yml up
 

@@ -97,7 +97,8 @@ class DataConfig:
     # Path to the data filter file for DROID dataset
     filter_dict_path: str | None = None
     # episode_filter
-    episodes: list[int] | None = None
+    task_indices: list[int] | None = None
+    episodes_per_task: int | None = None
 
 
 class GroupFactory(Protocol):
@@ -289,8 +290,9 @@ class LeRobotLiberoDataConfig(DataConfigFactory):
     """
 
     extra_delta_transform: bool = False
-    # episode_filter
-    episodes: list[int] | None = None
+    # task index filter
+    task_indices: list[int] | None = None
+    episodes_per_task: int | None = None
 
     @override
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
@@ -356,7 +358,8 @@ class LeRobotLiberoDataConfig(DataConfigFactory):
             repack_transforms=repack_transform,
             data_transforms=data_transforms,
             model_transforms=model_transforms,
-            episodes=self.episodes,
+            task_indices=self.task_indices,
+            episodes_per_task=self.episodes_per_task
         )
         
 @dataclasses.dataclass(frozen=True)
@@ -916,18 +919,8 @@ _CONFIGS = [
                 prompt_from_task=True,
             ),
             extra_delta_transform=False,
-            episodes=[
-                0, 18, # task 0
-                1, 4, # task 1
-                2, 3, # ...
-                6, 38,
-                7, 9,
-                8, 13,
-                10, 20,
-                12, 17,
-                14, 15,
-                27, 47, # task 9
-            ],
+            task_indices=list(range(10)), # LIBERO-10 tasks are 0-9
+            episodes_per_task=4,
             assets=AssetsConfig(
                 assets_dir="/home/lwoudstr/projects/aip-jjin5/lwoudstr/models/openpi_pi05_libero_jax/assets/physical-intelligence",
                 asset_id="libero",
@@ -958,6 +951,37 @@ _CONFIGS = [
             action_expert_variant="gemma_300m_lora",
         ).get_freeze_filter(),
         ema_decay=0.999,
+    ),
+    TrainConfig(
+        name="pi05_libero_10_few_shot_full_model",
+        checkpoint_base_dir="/mnt/data1/logan/checkpoints",
+        model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
+        data=LeRobotLiberoDataConfig(
+            repo_id="physical-intelligence/libero",
+            base_config=DataConfig(
+                prompt_from_task=True,
+            ),
+            extra_delta_transform=False,
+            task_indices=list(range(10)), # LIBERO-10 tasks are 0-9
+            episodes_per_task=4,
+            assets=AssetsConfig(
+                assets_dir="/mnt/data1/logan/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
+                asset_id="libero",
+            ),
+        ),
+        batch_size=16,
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1000,
+            peak_lr=2.5e-5,
+            decay_steps=20_000,
+            decay_lr=2e-5,
+        ),
+        optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
+        weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi05_base/params"),
+        # pytorch_weight_path="/path/to/your/pytorch_weight_path",
+        num_train_steps=30_000,
+        ema_decay=None,
+        fsdp_devices=1, 
     ),
     
     
