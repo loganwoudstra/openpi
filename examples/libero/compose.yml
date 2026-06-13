@@ -46,7 +46,7 @@ services:
       # - /mnt/data2/yi/logan/openpi:/mnt/data2/yi/logan/openpi
       - /mnt/data2/yi/logan:/mnt/data2/yi/logan
       - /mnt/data1/logan:/mnt/data1/logan
-      - /home/yi/logan/openpi/checkpoints:/home/yi/logan/openpi/checkpoints
+      - /home/yi/.cache/openpi/openpi-assets/checkpoints:/home/yi/.cache/openpi/openpi-assets/checkpoints
     environment:
       - SERVER_ARGS
       - OPENPI_DATA_HOME=/openpi_assets
@@ -58,6 +58,6 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              device_ids: ["1"]
+              device_ids: ["0"]
               # count: 1
               capabilities: [gpu]
