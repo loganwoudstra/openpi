@@ -904,7 +904,7 @@ _CONFIGS = [
     ),
     TrainConfig(
         name="pi05_libero_10_few_shot",
-        checkpoint_base_dir="/home/lwoudstr/scratch/openpi/checkpoints",
+        checkpoint_base_dir="/home/lwoudstr/scratch/checkpoints",
         # model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -954,7 +954,7 @@ _CONFIGS = [
     ),
     TrainConfig(
         name="pi05_libero_10_few_shot_full_model",
-        checkpoint_base_dir="/mnt/data1/logan/checkpoints",
+        checkpoint_base_dir="/home/lwoudstr/scratch/checkpoints",
         model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
         data=LeRobotLiberoDataConfig(
             repo_id="physical-intelligence/libero",
@@ -965,7 +965,7 @@ _CONFIGS = [
             task_indices=list(range(10)), # LIBERO-10 tasks are 0-9
             episodes_per_task=4,
             assets=AssetsConfig(
-                assets_dir="/mnt/data1/logan/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
+                assets_dir="/home/lwoudstr/scratch/openpi/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/",
                 asset_id="libero",
             ),
         ),
@@ -977,17 +977,17 @@ _CONFIGS = [
             decay_lr=2e-5,
         ),
         optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
-        weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi05_base/params"),
+        weight_loader=weight_loaders.CheckpointWeightLoader("/home/lwoudstr/projects/aip-jjin5/lwoudstr/models/pi05_base/params"),
         # pytorch_weight_path="/path/to/your/pytorch_weight_path",
         num_train_steps=30_000,
-        ema_decay=None,
-        fsdp_devices=1, 
+        ema_decay=0.999,
+        fsdp_devices=4,
     ),
     
     
     TrainConfig(
         name="pi05_franka",
-        checkpoint_base_dir="/home/lwoudstr/scratch/openpi/checkpoints",
+        checkpoint_base_dir="/home/lwoudstr/scratch/checkpoints",
         model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
         data=LeRobotFrankaDataConfig(
             repo_id="/home/lwoudstr/scratch/datasets/lerobot/pick-and-place-carrot",

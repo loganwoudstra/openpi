@@ -30,5 +30,6 @@ apptainer exec \
   --bind $PWD:/app \
   --bind $PWD/data:/data \
   --env CLIENT_ARGS="$CLIENT_ARGS" \
+  --env SERVER_ARGS="$SERVER_ARGS" \
   ~/scratch/libero.sif \
   /bin/bash -c "source /.venv/bin/activate && python examples/libero/main.py $CLIENT_ARGS"
