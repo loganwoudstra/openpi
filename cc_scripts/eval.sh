@@ -3,8 +3,8 @@
 #SBATCH --account=aip-jjin5
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=50gb
-#SBATCH --time=0:10:00
+#SBATCH --mem=40gb
+#SBATCH --time=2:30:00
 #SBATCH --output=/home/lwoudstr/scratch/openpi_logs/%A.out
 
 set -e
@@ -64,7 +64,7 @@ apptainer exec \
     --bind $REPO_ROOT:/app \
     --bind $REPO_ROOT/data:/data \
     ~/scratch/libero.sif \
-    /bin/bash -c "source /.venv/bin/activate && python examples/libero/main.py $CLIENT_ARGS"
+    /bin/bash -c "source /.venv/bin/activate && echo 'N' | python examples/libero/main.py $CLIENT_ARGS"
 
 CLIENT_EXIT=$?
 echo "[$(date)] Client exited with code $CLIENT_EXIT. Shutting down server..."
